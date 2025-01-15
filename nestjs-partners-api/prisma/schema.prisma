@@ -13,12 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event{
-  id String @id @default(uuid())
-  name String
+model Event {
+  id          String   @id @default(uuid())
+  name        String
   description String
-  date DateTime
-  price Float
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  date        DateTime
+  price       Float
+  createAt    DateTime @default(now())
+  updateAt    DateTime @updatedAt
+  Spots       Spots[]
+}
+
+model Spots {
+  id       String     @id @default(uuid())
+  name     String
+  createAt DateTime   @default(now())
+  updateAt DateTime   @updatedAt
+  status   SpotStatus
+  eventId  String
+  Event    Event      @relation(fields: [eventId], references: [id])
+}
+
+enum SpotStatus {
+  available
+  reserved
 }
